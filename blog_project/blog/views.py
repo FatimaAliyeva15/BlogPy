@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, CreateView, UpdateView,DetailView
-from django.urls import reverse_lazy
 from .models import BlogPost
 from .forms import BlogPostForms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 def index(request):
     yazilar = BlogPost.objects.all()
@@ -39,4 +39,15 @@ def post_delete(request, pk):
         return redirect("blog:index")
     return render(request, 'blog/blog_confirm_delete.html', {'post': post})
 
+
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('index')
+    else:
+        form = UserCreationForm()
+    return redirect(request, 'registration/signup.html', {'form': form})
 
