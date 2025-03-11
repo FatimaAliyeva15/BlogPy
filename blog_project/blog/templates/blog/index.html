@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1>Blog Posts</h1>
+    <a href="{% url 'blog:post_create' %}">Add New Post</a>
+    <ul>
+        {% for yazi in yazilar %}
+            <li>
+                <a href="{% url 'blog:post_edit' yazi.pk %}">{{ post.title }}</a> -
+                <a href="{% url 'blog:post_delete' yazi.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
