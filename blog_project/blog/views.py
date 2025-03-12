@@ -3,6 +3,8 @@ from .models import BlogPost
 from .forms import BlogPostForms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from rest_framework import generics
+from .serializers import BlogPostSerializer
 
 def index(request):
     yazilar = BlogPost.objects.all()
@@ -50,4 +52,12 @@ def signup(request):
     else:
         form = UserCreationForm()
     return redirect(request, 'registration/signup.html', {'form': form})
+
+class BlogPostListCreateAPIView(generics.ListCreateAPIView):
+    queryset = BlogPost.objects.all()
+    serializer_class = BlogPostSerializer
+
+class BlogPostRetrieveUpdateDestroyAPIView(generics.RetrieveDestroyAPIView):
+    queryset = BlogPost.objects.all()
+    serializer_class = BlogPostSerializer
 
